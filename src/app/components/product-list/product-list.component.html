@@ -1,0 +1,5 @@
+<article class="d-flex row row-cols-lg-3 row-cols-md-2 row-cols-1 border border-white">
+    @for (product of products; track $index) {
+        <app-product [product]="product"></app-product>
+    }
+</article>

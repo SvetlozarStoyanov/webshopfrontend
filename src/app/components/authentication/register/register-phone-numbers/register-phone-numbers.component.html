@@ -1,0 +1,33 @@
+<h3 class="">
+    Phone numbers
+</h3>
+<article class="d-flex flex-column gap-3">
+
+    @for (phoneNumber of phoneNumbers; track $index) {
+    <div class="form-group">
+        <label for="number" class="form-label">Number</label>
+        <input class="form-control" for="number" name="number" required type="text" minlength="7"
+            [(ngModel)]="phoneNumber.number" #number="ngModel" pattern="^[0-9]+$" />
+        @if (number.touched && number.errors?.['minlength']) {
+        <span class="text-danger">
+            Must be at least 7 characters
+        </span>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="countryId" class="form-label">Country</label>
+        <select class="form-select" for="countryId" name="countryId" [(ngModel)]="phoneNumber.countryId"
+            #countryId="ngModel">
+            @for (country of countries; track $index) {
+            <option [value]="country.id"> {{country.name}} ({{country.phoneCode}})</option>
+            }
+        </select>
+    </div>
+    <div class="form-check">
+        <label for="isMain" class="form-label">Main</label>
+        <input class="form-check-input" data-toggle="toggle" for="isMain" name="isMain" type="checkbox"
+            [(ngModel)]="phoneNumber.isMain" #isMain="ngModel" />
+    </div>
+    }
+</article>

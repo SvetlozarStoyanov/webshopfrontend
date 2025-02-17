@@ -1,0 +1,63 @@
+<h3 class="">
+   Personal Details
+</h3>
+<article class="d-flex flex-column gap-3">
+<div class="form-group">
+    <label for="username" class="form-label">Username</label>
+    <input class="form-control" for="username" name="username" type="text" [(ngModel)]="user.userName" minlength="3"
+        #username="ngModel" [appNameNotTaken]="userNames" required pattern="^[A-Za-z0-9 ]+$" />
+    @if (username.touched && username.errors?.['forbidden']) {
+    <span class="text-danger">
+        Username is already taken!
+    </span>
+    }
+    @else if (username.touched && username.errors?.['minlength']) {
+    <span class="text-danger">
+        Must be at least 3 characters!
+    </span>
+    }
+</div>
+<div class="d-flex flex-row justify-content-between gap-5">
+    <div class="w-50">
+        <label for="firstName" class="form-label">First Name</label>
+        <input class="form-control" for="firstName" name="firstName" type="text" [(ngModel)]="user.firstName"
+            #firstName="ngModel" required pattern="^[A-Za-z ]+$" />
+    </div>
+    <div class="w-50">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input class="form-control" for="lastName" name="lastName" type="text" [(ngModel)]="user.lastName"
+            #lastName="ngModel" required pattern="^[A-Za-z ]+$" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="middleName" class="form-label">Middle Name</label>
+    <input class="form-control" for="middleName" name="middleName" type="text" [(ngModel)]="user.middleName"
+        #middleName="ngModel" pattern="^[A-Za-z ]+$" />
+</div>
+<div class="form-group">
+    <label class="form-label" for="password">Password</label>
+    <input class="form-control"
+        [ngClass]="[password.touched && (password.errors?.['minlength']) ? 'border border-4 border-danger' : ''] "
+        for="password" name="password" type="password" [(ngModel)]="user.password" #password="ngModel" required
+        minlength="5" />
+    @if (password.touched && password.errors?.['minlength']) {
+    <span class="text-danger">
+        Must be 5 characters long!
+    </span>
+    }
+</div>
+<!-- <div class="form-group">
+  !! If added add to password div confirmPassword.errors?.['passwordMissmatch']) ? ]
+    <label class="form-label" for="confirmPassword">Confirm Password</label>
+    <input class="form-control"
+        [ngClass]="[confirmPassword.touched && password.touched && confirmPassword.errors?.['passwordMissmatch'] ? 'border border-4 border-danger' : '']"
+        for="confirmPassword" name="confirmPassword" type="password"
+        [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" appPasswordMatch="password"
+        required />
+    @if (confirmPassword.touched && confirmPassword.errors?.['passwordMissmatch']) {
+    <span class="text-danger">
+        Passwords must match!
+    </span>
+    }
+</div> -->
+</article>

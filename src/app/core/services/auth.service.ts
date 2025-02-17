@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   login(loginModel: UserLoginModel) {
-    return this.httpClient.post<UserLoginOutputModel>(`${this.apiUrl}/users/login`, loginModel).pipe(
+    return this.httpClient.post<UserLoginOutputModel>(`${this.apiUrl}/auth/login`, loginModel).pipe(
       map(res => {
         localStorage.setItem('user', JSON.stringify(res));
         this.authStatus$$.next(true);
@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   register(registerModel: UserRegisterModel) {
-    return this.httpClient.post<UserLoginOutputModel>(`${this.apiUrl}/users/register`, registerModel).pipe(
+    return this.httpClient.post<UserLoginOutputModel>(`${this.apiUrl}/auth/register`, registerModel).pipe(
       map(res => {
         localStorage.setItem('user', JSON.stringify(res));
         this.authStatus$$.next(true);
@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.httpClient.post(`${this.apiUrl}/users/logout`, {}).pipe(
+    return this.httpClient.post(`${this.apiUrl}/auth/logout`, {}).pipe(
       map(res => {
         this.authStatus$$.next(false);
         localStorage.removeItem('user');

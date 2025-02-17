@@ -1,1 +1,52 @@
-<p>register works!</p>
+<section class="d-flex flex-column justity-content-center">
+    <article
+        class="d-flex flex-column align-self-center justity-content-between py-4 px-5 border border-1 border-white rounded-4">
+
+        <h3 class="text-center">
+            Register
+        </h3>
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3 justity-content-center">
+            <app-register-user [hidden]="page !== 0" [userNames]="allUserNames" [user]="registerModel">
+
+            </app-register-user>
+            <app-register-addresses [hidden]="page !== 1" [countries]="allCountries"
+                [addresses]="registerModel.customer.addresses">
+
+            </app-register-addresses>
+            <app-register-phone-numbers [hidden]="page !== 2" [countries]="allCountries"
+                [phoneNumbers]="registerModel.customer.phoneNumbers">
+
+            </app-register-phone-numbers>
+            <app-register-emails [hidden]="page !== 3" [emails]="registerModel.customer.emails">
+
+            </app-register-emails>
+
+            <div class="d-flex flex-column gap-3 align-self-center gap-3 my-2">
+                <div class="d-flex flex-row gap-3 align-items-center justify-content-between">
+                    <button class="btn btn-primary rounded-5" [disabled]="page < 1" type="button"
+                        (click)="previousPageBtnClick()">
+                        Previous
+                    </button>
+                    <button class="btn btn-primary rounded-5" [disabled]="page > 2" type="button" (click)="nextPageBtnClick()">
+                        Continue
+                    </button>
+                </div>
+                @if (page === 3) {
+                <button class="btn btn-lg btn-primary rounded-5" [disabled]="registerForm.invalid" type="submit">
+                    Register
+                </button>
+                }
+                <button type="button" (click)="logBtnClick(registerForm)">
+                    Log Object
+                </button>
+                <h5 class="text-center">
+                    Already have an account?
+                    <a routerLink="/login">
+                        Login
+                    </a>
+                </h5>
+            </div>
+        </form>
+    </article>
+
+</section>

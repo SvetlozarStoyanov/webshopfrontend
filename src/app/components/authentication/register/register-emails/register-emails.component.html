@@ -1,0 +1,18 @@
+<h3 class="">
+    Emails
+</h3>
+<article class="d-flex flex-column gap-3">
+
+    @for (email of emails; track $index) {
+    <div class="form-group">
+        <label for="email" class="form-label">Address</label>
+        <input class="form-control" for="address" name="address" type="text" [(ngModel)]="email.address"
+            #address="ngModel" required email />
+        @if (address.errors?.['email']) {
+        <span class="text-danger">
+            Please enter a valid email address!
+        </span>
+        }
+    </div>
+    }
+</article>

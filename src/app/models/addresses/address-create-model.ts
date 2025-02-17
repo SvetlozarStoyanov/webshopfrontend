@@ -1,6 +1,6 @@
 export interface AddressCreateModel {
     addressLineOne: string,
-    addressLineTwo: string,
+    addressLineTwo?: string,
     city: string,
     postCode: string,
     isMain: boolean,

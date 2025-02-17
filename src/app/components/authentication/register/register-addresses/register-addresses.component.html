@@ -1,0 +1,45 @@
+<h3 class="">
+    Addresses
+</h3>
+<article class="d-flex flex-column gap-3">
+
+    @for (address of addresses; track trackByAddress) {
+    <div class="form-group">
+        <label for="addressLineOne" class="form-label">Address Line One</label>
+        <input class="form-control" for="addressLineOne" name="addressLineOne" type="text"
+            [(ngModel)]="address.addressLineOne" #addressLineOne="ngModel" required pattern="^[A-Za-z0-9., ]+$" />
+    </div>
+    <div class="form-group">
+        <label for="addressLineTwo" class="form-label">Address Line Two</label>
+        <input class="form-control" for="addressLineTwo" name="addressLineTwo" type="text"
+            [(ngModel)]="address.addressLineTwo" #addressLineTwo="ngModel" pattern="^[A-Za-z0-9., ]+$" />
+    </div>
+    <div class="form-group">
+        <label for="city" class="form-label">City</label>
+        <input class="form-control" for="city" name="city" type="text" [(ngModel)]="address.city" #city="ngModel"
+            pattern="^[A-Za-z]+$" />
+    </div>
+    <div class="form-group">
+        <label for="postCode" class="form-label">Post Code</label>
+        <input class="form-control" for="postCode" name="postCode" type="text" [(ngModel)]="address.postCode"
+            #postCode="ngModel" pattern="^[0-9A-Za-z]+$" />
+    </div>
+    <div class="form-group">
+        <label for="countryId" class="form-label">Country</label>
+        <select class="form-select" for="countryId" name="countryId" type="text" [(ngModel)]="address.countryId"
+            #countryId="ngModel">
+            @for (country of countries; track $index) {
+            <option [value]="country.id"> {{country.name}}</option>
+            }
+        </select>
+    </div>
+    }
+</article>
+<button type="button" (click)="addNewAddress()">
+    Add
+</button>
+@if (!lastAddressIsValid) {
+<span class="text-danger">
+    Make sure last address is valid!
+</span>
+}

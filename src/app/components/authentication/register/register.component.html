@@ -5,11 +5,11 @@
         <h3 class="text-center">
             Register
         </h3>
-        <form #registerForm="ngForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3 justity-content-center">
-            <app-register-user [hidden]="page !== 0" [userNames]="allUserNames" [user]="registerModel">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3 justity-content-center">
+            <app-register-user [form]="registerForm" [hidden]="page !== 0" [userNames]="allUserNames">
 
             </app-register-user>
-            <app-register-addresses [hidden]="page !== 1" [countries]="allCountries"
+            <!-- <app-register-addresses [hidden]="page !== 1" [countries]="allCountries"
                 [addresses]="registerModel.customer.addresses">
 
             </app-register-addresses>
@@ -19,7 +19,7 @@
             </app-register-phone-numbers>
             <app-register-emails [hidden]="page !== 3" [emails]="registerModel.customer.emails">
 
-            </app-register-emails>
+            </app-register-emails> -->
 
             <div class="d-flex flex-column gap-3 align-self-center gap-3 my-2">
                 <div class="d-flex flex-row gap-3 align-items-center justify-content-between">
@@ -27,7 +27,8 @@
                         (click)="previousPageBtnClick()">
                         Previous
                     </button>
-                    <button class="btn btn-primary rounded-5" [disabled]="page > 2" type="button" (click)="nextPageBtnClick()">
+                    <button class="btn btn-primary rounded-5" [disabled]="page > 2" type="button"
+                        (click)="nextPageBtnClick()">
                         Continue
                     </button>
                 </div>
@@ -36,7 +37,7 @@
                     Register
                 </button>
                 }
-                <button type="button" (click)="logBtnClick(registerForm)">
+                <button type="button" (click)="logBtnClick()">
                     Log Object
                 </button>
                 <h5 class="text-center">

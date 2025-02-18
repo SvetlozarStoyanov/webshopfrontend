@@ -1,9 +1,9 @@
 <h3 class="">
     Addresses
 </h3>
-<article class="d-flex flex-column gap-3">
+<article *ngFor="let address of addresses; trackBy: trackByFn" class="d-flex flex-column gap-3">
 
-    @for (address of addresses; track trackByAddress) {
+    <!-- @for (address of addresses; track trackByFn) { -->
     <div class="form-group">
         <label for="addressLineOne" class="form-label">Address Line One</label>
         <input class="form-control" for="addressLineOne" name="addressLineOne" type="text"
@@ -33,7 +33,7 @@
             }
         </select>
     </div>
-    }
+    <!-- } -->
 </article>
 <button type="button" (click)="addNewAddress()">
     Add

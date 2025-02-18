@@ -1,21 +1,26 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
 import { AddressCreateModel } from '../../../../models/addresses/address-create-model';
 import { CountryDDMModel } from '../../../../models/countries/country-ddm-model';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-register-addresses',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgFor],
   templateUrl: './register-addresses.component.html',
   styleUrl: './register-addresses.component.css',
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterAddressesComponent {
   lastAddressIsValid: boolean = true;
   @Input('addresses') addresses!: AddressCreateModel[];
   @Input('countries') countries!: CountryDDMModel[];
+
+  constructor(private changeDetector: ChangeDetectorRef) {
+
+  }
 
   addNewAddress() {
     const lastAddress = this.addresses[this.addresses.length - 1];
@@ -24,20 +29,36 @@ export class RegisterAddressesComponent {
       return;
     }
     this.lastAddressIsValid = true;
-    this.addresses = [...this.addresses, {
-      addressLineOne: '',
+    // this.addresses.push({
+    //   addressLineOne: 'Test address',
+    //   addressLineTwo: '',
+    //   city: '',
+    //   postCode: '',
+    //   isMain: false,
+    //   countryId: 1,
+    // });
+
+    // Create a completely new object
+    const newAddress: AddressCreateModel = {
+      addressLineOne: ``,
       addressLineTwo: '',
       city: '',
       postCode: '',
       isMain: false,
       countryId: 1,
-    }];
+    };
+
+    // Use the spread operator to create a new array reference
+    this.addresses = [...this.addresses, { ...newAddress }];
+    // this.changeDetector.detectChanges();
   }
 
-  trackByAddress(index: number, address: any): number {
-    return this.addresses.indexOf(address);
+  trackByFn(index: number, address: AddressCreateModel): any {
+    console.log(index, address);
+    return address;
   }
 
-
-
+  generateUniqueId(): number {
+    return new Date().getTime() + Math.floor(Math.random() * 1000);
+  }
 }

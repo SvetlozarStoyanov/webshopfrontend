@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../../core/services/user.service';
@@ -15,11 +15,13 @@ import { RegisterEmailsComponent } from "./register-emails/register-emails.compo
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, RouterLink, RegisterAddressesComponent, RegisterPhoneNumbersComponent, RegisterUserComponent, RegisterEmailsComponent],
+  imports: [ReactiveFormsModule, RouterLink, RegisterAddressesComponent, RegisterPhoneNumbersComponent, RegisterUserComponent, RegisterEmailsComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
+
   allUserNames: string[] = [];
   allCountries: CountryDDMModel[] = [];
   registerModel: UserRegisterModel = {
@@ -54,7 +56,8 @@ export class RegisterComponent implements OnInit {
   constructor(private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly router: Router,
-    private readonly countryService: CountryService) {
+    private readonly countryService: CountryService,
+    private readonly fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -65,11 +68,73 @@ export class RegisterComponent implements OnInit {
     this.countryService.getAllCountriesForDropdown().subscribe(res => {
       this.allCountries = res;
     });
+
+    this.registerForm = this.fb.group({
+
+      userName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      middleName: [''],
+      lastName: ['', Validators.required],
+      password: ['', Validators.required],
+      customer: this.fb.group({
+        addresses: this.fb.array([]),
+        phoneNumbers: this.fb.array([]),
+        emails: this.fb.array([])
+      })
+    }
+    );
+
+    this.addDefaultValues();
+  }
+
+  get addresses(): FormArray {
+    return this.registerForm.get('customer.addresses') as FormArray;
+  }
+
+  get phoneNumbers(): FormArray {
+    return this.registerForm.get('customer.phoneNumbers') as FormArray;
+  }
+
+  get emails(): FormArray {
+    return this.registerForm.get('customer.emails') as FormArray;
+  }
+
+  addAddress(): void {
+    this.addresses.push(this.fb.group({
+      addressLineOne: ['Bulgaria', Validators.required],
+      addressLineTwo: [''],
+      city: ['Varna', Validators.required],
+      postCode: ['9010', Validators.required],
+      isMain: [true],
+      countryId: [1, Validators.required]
+    }));
+  }
+
+  addPhoneNumber(): void {
+    this.phoneNumbers.push(this.fb.group({
+      number: ['965656232', Validators.required],
+      isMain: [true],
+      countryId: [1, Validators.required]
+    }));
+  }
+
+  addEmail(): void {
+    this.emails.push(this.fb.group({
+      address: ['test@mail.cmo', [Validators.required, Validators.email]],
+      isMain: [true]
+    }));
+  }
+
+  private addDefaultValues(): void {
+    this.addAddress();
+    this.addPhoneNumber();
+    this.addEmail();
   }
 
   onSubmit() {
-
-    this.authService.register(this.registerModel).subscribe(res => {
+    const formData: UserRegisterModel = this.registerForm.value;
+    console.log(formData);
+    this.authService.register(formData).subscribe(res => {
       if (res && res.id && res.userName) {
         // Redirect only if id and username are present
         this.router.navigate(['/home']);
@@ -84,15 +149,16 @@ export class RegisterComponent implements OnInit {
     this.page++;
   }
 
-  logBtnClick(form: NgForm) {
-    const controls = form.controls;
+  logBtnClick() {
+
+    const controls = this.registerForm.controls;
     for (const name in controls) {
       if (controls[name].invalid) {
         console.log(name)
       }
     }
     // console.log(form.controls);
-    console.log(this.registerModel);
+    console.log(this.registerForm);
   }
 
 

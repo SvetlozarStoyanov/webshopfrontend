@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
-import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddressCreateModel } from '../../../../models/addresses/address-create-model';
 import { CountryDDMModel } from '../../../../models/countries/country-ddm-model';
 import { NgFor } from '@angular/common';
@@ -7,28 +7,32 @@ import { NgFor } from '@angular/common';
 @Component({
   selector: 'app-register-addresses',
   standalone: true,
-  imports: [FormsModule, NgFor],
+  imports: [ReactiveFormsModule, NgFor],
   templateUrl: './register-addresses.component.html',
   styleUrl: './register-addresses.component.css',
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterAddressesComponent {
   lastAddressIsValid: boolean = true;
-  @Input('addresses') addresses!: AddressCreateModel[];
+  @Input('addresses') addresses!: FormArray;
   @Input('countries') countries!: CountryDDMModel[];
-
-  constructor(private changeDetector: ChangeDetectorRef) {
+  @Output() addAddressEvent = new EventEmitter<void>();
+  constructor(private fb: FormBuilder) {
 
   }
 
   addNewAddress() {
-    const lastAddress = this.addresses[this.addresses.length - 1];
-    if (lastAddress.addressLineOne.length < 1 || lastAddress.city.length < 1 || lastAddress.postCode.length < 1) {
+    if (this.addresses.invalid) {
       this.lastAddressIsValid = false;
       return;
     }
+    // const lastAddress = this.addresses[this.addresses.length - 1];
+    // if (lastAddress.addressLineOne.length < 1 || lastAddress.city.length < 1 || lastAddress.postCode.length < 1) {
+    //   this.lastAddressIsValid = false;
+    //   return;
+    // }
     this.lastAddressIsValid = true;
+    this.addAddressEvent.emit();
     // this.addresses.push({
     //   addressLineOne: 'Test address',
     //   addressLineTwo: '',
@@ -39,7 +43,7 @@ export class RegisterAddressesComponent {
     // });
 
     // Create a completely new object
-    const newAddress: AddressCreateModel = {
+    const newAddress = {
       addressLineOne: ``,
       addressLineTwo: '',
       city: '',
@@ -49,8 +53,7 @@ export class RegisterAddressesComponent {
     };
 
     // Use the spread operator to create a new array reference
-    this.addresses = [...this.addresses, { ...newAddress }];
-    // this.changeDetector.detectChanges();
+    // this.addresses = [...this.addresses, { ...newAddress }];
   }
 
   trackByFn(index: number, address: AddressCreateModel): any {
@@ -58,7 +61,7 @@ export class RegisterAddressesComponent {
     return address;
   }
 
-  generateUniqueId(): number {
-    return new Date().getTime() + Math.floor(Math.random() * 1000);
+  getAddressFormGroup(index: number): FormGroup {
+    return this.addresses.at(index) as FormGroup;
   }
 }

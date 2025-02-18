@@ -5,15 +5,16 @@
         <h3 class="text-center">
             Register
         </h3>
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3 justity-content-center">
-            <app-register-user [form]="registerForm" [hidden]="page !== 0" [userNames]="allUserNames">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
+            class="d-flex flex-column gap-3 justity-content-center">
+            <app-register-user [registerForm]="registerForm" [hidden]="page !== 0" [userNames]="allUserNames">
 
             </app-register-user>
-            <!-- <app-register-addresses [hidden]="page !== 1" [countries]="allCountries"
-                [addresses]="registerModel.customer.addresses">
+            <app-register-addresses (addAddressEvent)="addAddress()" [hidden]="page !== 1"
+                [countries]="allCountries" [addresses]="addresses">
 
             </app-register-addresses>
-            <app-register-phone-numbers [hidden]="page !== 2" [countries]="allCountries"
+            <!-- <app-register-phone-numbers [hidden]="page !== 2" [countries]="allCountries"
                 [phoneNumbers]="registerModel.customer.phoneNumbers">
 
             </app-register-phone-numbers>

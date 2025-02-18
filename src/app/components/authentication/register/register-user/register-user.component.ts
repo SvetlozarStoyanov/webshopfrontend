@@ -13,7 +13,7 @@ import { UserRegisterModel } from '../../../../models/users/user-register-model'
 })
 export class RegisterUserComponent {
   @Input('userNames') userNames: string[] = [];
-  @Input() form!: FormGroup;
+  @Input() registerForm!: FormGroup;
 
 
   public test() {

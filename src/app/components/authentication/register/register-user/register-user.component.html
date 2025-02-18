@@ -1,17 +1,17 @@
 <h3 class="">
     Personal Details
 </h3>
-<article [formGroup]="form" class="d-flex flex-column gap-3">
+<article [formGroup]="registerForm" class="d-flex flex-column gap-3">
     <div class="form-group">
         <label class="form-label">Username</label>
         <input class="form-control"  type="text" [appNameNotTaken]="userNames"
             pattern="^[A-Za-z0-9 ]+$" formControlName="userName" />
-        @if (form.get('userName')!.touched && form.get('userName')!.errors?.['forbidden']) {
+        @if (registerForm.get('userName')!.touched && registerForm.get('userName')!.errors?.['forbidden']) {
         <span class="text-danger">
             Username is already taken!
         </span>
         }
-        @else if (form.get('userName')!.touched && form.get('userName')!.errors?.['minlength']) {
+        @else if (registerForm.get('userName')!.touched && registerForm.get('userName')!.errors?.['minlength']) {
         <span class="text-danger">
             Must be at least 3 characters!
         </span>
@@ -37,9 +37,9 @@
     <div class="form-group">
         <label class="form-label" for="password">Password</label>
         <input class="form-control"
-            [class]="[form.get('password')!.touched && (form.get('password')!.errors?.['minlength']) ? 'border border-4 border-danger' : ''] "
+            [class]="[registerForm.get('password')!.touched && (registerForm.get('password')!.errors?.['minlength']) ? 'border border-4 border-danger' : ''] "
             for="password" name="password" type="password" formControlName="password" required minlength="5" />
-        @if (form.get('password')!.touched && form.get('password')!.errors?.['minlength']) {
+        @if (registerForm.get('password')!.touched && registerForm.get('password')!.errors?.['minlength']) {
         <span class="text-danger">
             Must be 5 characters long!
         </span>

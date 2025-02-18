@@ -100,12 +100,13 @@ export class RegisterComponent implements OnInit {
   }
 
   addAddress(): void {
+
     this.addresses.push(this.fb.group({
-      addressLineOne: ['Bulgaria', Validators.required],
-      addressLineTwo: [''],
-      city: ['Varna', Validators.required],
-      postCode: ['9010', Validators.required],
-      isMain: [true],
+      addressLineOne: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9., ]+$')]],
+      addressLineTwo: ['', Validators.pattern('^[A-Za-z0-9., ]+$')],
+      city: ['', [Validators.required, Validators.pattern('^[A-Za-z ]+$')]],
+      postCode: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')]],
+      isMain: [this.addresses.length === 0],
       countryId: [1, Validators.required]
     }));
   }
@@ -145,21 +146,29 @@ export class RegisterComponent implements OnInit {
   previousPageBtnClick() {
     this.page--;
   }
+
   nextPageBtnClick() {
     this.page++;
   }
 
   logBtnClick() {
 
-    const controls = this.registerForm.controls;
-    for (const name in controls) {
-      if (controls[name].invalid) {
-        console.log(name)
-      }
-    }
-    // console.log(form.controls);
+
+    this.logInvalidFieldsInForm(this.registerForm);
+
     console.log(this.registerForm);
   }
 
+  logInvalidFieldsInForm(form: FormGroup) {
+    const controls = form.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        console.log(name);
+        if (controls[name] instanceof (FormGroup)) {
+          this.logInvalidFieldsInForm(controls[name]);
+        }
+      }
+    }
+  }
 
 }

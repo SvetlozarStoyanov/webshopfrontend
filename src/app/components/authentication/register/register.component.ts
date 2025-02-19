@@ -100,7 +100,6 @@ export class RegisterComponent implements OnInit {
   }
 
   addAddress(): void {
-
     this.addresses.push(this.fb.group({
       addressLineOne: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9., ]+$')]],
       addressLineTwo: ['', Validators.pattern('^[A-Za-z0-9., ]+$')],
@@ -109,21 +108,37 @@ export class RegisterComponent implements OnInit {
       isMain: [this.addresses.length === 0],
       countryId: [1, Validators.required]
     }));
+
   }
 
   addPhoneNumber(): void {
     this.phoneNumbers.push(this.fb.group({
-      number: ['965656232', Validators.required],
-      isMain: [true],
+      number: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(7)]],
+      isMain: [this.phoneNumbers.length === 0],
       countryId: [1, Validators.required]
     }));
+
   }
 
   addEmail(): void {
     this.emails.push(this.fb.group({
-      address: ['test@mail.cmo', [Validators.required, Validators.email]],
-      isMain: [true]
+      address: ['', [Validators.required, Validators.email]],
+      isMain: [this.emails.length === 0]
     }));
+
+  }
+  setMainAddress(index: number) {
+    this.addresses.controls.forEach((control, i) => {
+      control.get('isMain')?.setValue(i === index);
+    });
+  }
+
+
+
+  setMainEmail(index: number) {
+    this.emails.controls.forEach((control, i) => {
+      control.get('isMain')?.setValue(i === index);
+    });
   }
 
   private addDefaultValues(): void {
@@ -152,8 +167,6 @@ export class RegisterComponent implements OnInit {
   }
 
   logBtnClick() {
-
-
     this.logInvalidFieldsInForm(this.registerForm);
 
     console.log(this.registerForm);

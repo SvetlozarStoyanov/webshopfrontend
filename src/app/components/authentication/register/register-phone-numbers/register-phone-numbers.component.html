@@ -2,32 +2,51 @@
     Phone numbers
 </h3>
 <article class="d-flex flex-column gap-3">
-
-    @for (phoneNumber of phoneNumbers; track $index) {
-    <div class="form-group">
-        <label for="number" class="form-label">Number</label>
-        <input class="form-control" for="number" name="number" required type="text" minlength="7"
-            [(ngModel)]="phoneNumber.number" #number="ngModel" pattern="^[0-9]+$" />
-        @if (number.touched && number.errors?.['minlength']) {
-        <span class="text-danger">
-            Must be at least 7 characters
-        </span>
-        }
-    </div>
-
-    <div class="form-group">
-        <label for="countryId" class="form-label">Country</label>
-        <select class="form-select" for="countryId" name="countryId" [(ngModel)]="phoneNumber.countryId"
-            #countryId="ngModel">
-            @for (country of countries; track $index) {
-            <option [value]="country.id"> {{country.name}} ({{country.phoneCode}})</option>
+    @for (phoneNumber of phoneNumbers.controls; track $index) {
+    <div class="d-flex flex-column gap-3" [formGroup]="getPhoneNumberFormGroup($index)">
+        <div class="form-group">
+            <label for="countryId" class="form-label">Country</label>
+            <select class="form-select" for="countryId" name="countryId" formControlName="countryId">
+                @for (country of countries; track $index) {
+                <option [value]="country.id"> {{country.name}} ({{country.phoneCode}})</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="number" class="form-label">Number</label>
+            <input class="form-control" for="number" name="number" type="text" formControlName="number" />
+            @if (phoneNumber.get('number')!.touched) {
+            <div class="d-flex flex-column gap-1">
+                @if (phoneNumber.get('number')!.errors?.['required']) {
+                <span class="text-danger">
+                    This field is required!
+                </span>
+                }
+                @if (phoneNumber.get('number')!.errors?.['minlength']) {
+                <span class="text-danger">
+                    Must be at least 7 characters
+                </span>
+                }
+                @if(phoneNumber.get('number')!.errors?.['pattern']){
+                <span class="text-danger">
+                    Must be a phone number!
+                </span>
+                }
+            </div>
             }
-        </select>
-    </div>
-    <div class="form-check">
-        <label for="isMain" class="form-label">Main</label>
-        <input class="form-check-input" data-toggle="toggle" for="isMain" name="isMain" type="checkbox"
-            [(ngModel)]="phoneNumber.isMain" #isMain="ngModel" />
+        </div>
+        <div class="form-check">
+            <label for="isMain" class="form-label">Main</label>
+            <input class="form-check-input" formControlName="isMain" (change)="selectMain($index)" type="checkbox" />
+        </div>
     </div>
     }
 </article>
+<button type="button" (click)="addNewPhoneNumber()">
+    Add
+</button>
+@if (!phoneNumbersAreValid) {
+<span class="text-danger">
+    Make sure phone numbers are valid!
+</span>
+}

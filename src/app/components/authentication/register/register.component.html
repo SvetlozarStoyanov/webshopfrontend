@@ -10,17 +10,17 @@
             <app-register-user [registerForm]="registerForm" [hidden]="page !== 0" [userNames]="allUserNames">
 
             </app-register-user>
-            <app-register-addresses (addAddressEvent)="addAddress()" [hidden]="page !== 1"
-                [countries]="allCountries" [addresses]="addresses">
+            <app-register-addresses (addAddressEvent)="addAddress()" [hidden]="page !== 1" [countries]="allCountries"
+                [addresses]="addresses">
 
             </app-register-addresses>
-            <!-- <app-register-phone-numbers [hidden]="page !== 2" [countries]="allCountries"
-                [phoneNumbers]="registerModel.customer.phoneNumbers">
+            <app-register-phone-numbers (addNewPhoneNumberEvent)="addPhoneNumber()" [hidden]="page !== 2"
+                [countries]="allCountries" [phoneNumbers]="phoneNumbers">
 
             </app-register-phone-numbers>
-            <app-register-emails [hidden]="page !== 3" [emails]="registerModel.customer.emails">
+            <app-register-emails (addEmailEvent)="addEmail()" [hidden]="page !== 3" [emails]="emails">
 
-            </app-register-emails> -->
+            </app-register-emails>
 
             <div class="d-flex flex-column gap-3 align-self-center gap-3 my-2">
                 <div class="d-flex flex-row gap-3 align-items-center justify-content-between">

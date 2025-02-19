@@ -2,17 +2,29 @@
     Emails
 </h3>
 <article class="d-flex flex-column gap-3">
-
-    @for (email of emails; track $index) {
-    <div class="form-group">
-        <label for="email" class="form-label">Address</label>
-        <input class="form-control" for="address" name="address" type="text" [(ngModel)]="email.address"
-            #address="ngModel" required email />
-        @if (address.errors?.['email']) {
-        <span class="text-danger">
-            Please enter a valid email address!
-        </span>
-        }
+    @for (email of emails.controls; track $index;) {
+    <div class="d-flex flex-column gap-3" [formGroup]="getEmailFormGroup($index)">
+        <div class="form-group">
+            <label for="email" class="form-label">Email address</label>
+            <input class="form-control" for="address" name="address" type="text" formControlName="address" />
+            @if (email.get('address')!.errors?.['email'] && email.get('address')!.touched) {
+            <span class="text-danger">
+                Please enter a valid email address!
+            </span>
+            }
+        </div>
+        <div class="form-check">
+            <label for="isMain" class="form-label">Main</label>
+            <input class="form-check-input" type="radio" formControlName="isMain" />
+        </div>
     </div>
     }
 </article>
+<button type="button" (click)="addNewEmail()">
+    Add
+</button>
+@if (!emailsAreValid) {
+<span class="text-danger">
+    Make sure emails are valid!
+</span>
+}

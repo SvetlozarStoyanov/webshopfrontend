@@ -40,9 +40,13 @@
             <input class="form-check-input" formControlName="isMain" (change)="selectMain($index)" type="checkbox" />
         </div>
     </div>
+    <button class="btn btn-danger align-self-end" [disabled]="!canRemovePhoneNumbers" type="button"
+        (click)="remove($index)">
+        Remove
+    </button>
     }
 </article>
-<button type="button" (click)="addNewPhoneNumber()">
+<button class="btn btn-info" type="button" (click)="addNewPhoneNumber()">
     Add
 </button>
 @if (!phoneNumbersAreValid) {

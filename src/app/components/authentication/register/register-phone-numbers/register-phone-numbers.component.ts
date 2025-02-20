@@ -9,36 +9,22 @@ import { AbstractControl, FormArray, FormGroup, ReactiveFormsModule } from '@ang
   templateUrl: './register-phone-numbers.component.html',
   styleUrl: './register-phone-numbers.component.css'
 })
-export class RegisterPhoneNumbersComponent implements OnInit, AfterViewInit, OnChanges {
+export class RegisterPhoneNumbersComponent {
 
   phoneNumbersAreValid: boolean = true;
+  canRemovePhoneNumbers: boolean = false;
   @Input('phoneNumbers') phoneNumbers!: FormArray;
   @Input('countries') countries: CountryDDMModel[] = [];
   @Output() addNewPhoneNumberEvent = new EventEmitter<void>();
-
-  ngOnInit() {
-    // this.phoneNumbers.controls[0].get('isMain')?.setValue(true);
-  }
-
-  ngAfterViewInit(): void {
-    // console.log(this.phoneNumbers.controls[0].get('isMain'));
-    // this.phoneNumbers.controls[0].get('isMain')?.setValue(true);
-    // console.log(this.phoneNumbers.controls[0].get('isMain')?.value);
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['phoneNumbers'] && this.phoneNumbers && this.phoneNumbers.length > 0) {
-      this.phoneNumbers.controls[0].get('isMain')?.setValue(true);  // Set the default 'isMain' to true
-    }
-  }
 
   addNewPhoneNumber() {
     if (this.phoneNumbers.invalid) {
       this.phoneNumbersAreValid = false;
       return;
     }
+    console.log('Added phone');
     this.phoneNumbersAreValid = true;
+    this.canRemovePhoneNumbers = true;
     this.addNewPhoneNumberEvent.emit();
   }
 
@@ -47,10 +33,24 @@ export class RegisterPhoneNumbersComponent implements OnInit, AfterViewInit, OnC
   }
 
   selectMain(index: number) {
-    console.log('Change radio');
     this.phoneNumbers.controls.forEach((control, i) => {
       control.get('isMain')?.setValue(i === index);
     });
+  }
+
+  remove(index: number) {
+    if (this.phoneNumbers.length < 2) {
+      return;
+    }
+    console.log('Removed phone');
+    const currIsMain = this.phoneNumbers.controls[index].get('isMain')?.value;
+    this.phoneNumbers.removeAt(index);
+    if (this.phoneNumbers.length === 1) {
+      this.canRemovePhoneNumbers = false;
+    }
+    if (currIsMain) {
+      this.selectMain(this.phoneNumbers.length - 1);
+    }
   }
 
 }

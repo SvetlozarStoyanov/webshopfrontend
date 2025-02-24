@@ -3,54 +3,75 @@
 </h3>
 <article class="d-flex flex-column gap-3">
     @for (phoneNumber of phoneNumbers.controls; track $index) {
-    <div class="d-flex flex-column gap-3" [formGroup]="getPhoneNumberFormGroup($index)">
-        <div class="form-group">
-            <label for="countryId" class="form-label">Country</label>
-            <select class="form-select" for="countryId" name="countryId" formControlName="countryId">
-                @for (country of countries; track $index) {
-                <option [value]="country.id"> {{country.name}} ({{country.phoneCode}})</option>
-                }
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="number" class="form-label">Number</label>
-            <input class="form-control" for="number" name="number" type="text" formControlName="number" />
-            @if (phoneNumber.get('number')!.touched) {
-            <div class="d-flex flex-column gap-1">
-                @if (phoneNumber.get('number')!.errors?.['required']) {
-                <span class="text-danger">
-                    This field is required!
-                </span>
-                }
-                @if (phoneNumber.get('number')!.errors?.['minlength']) {
-                <span class="text-danger">
-                    Must be at least 7 characters
-                </span>
-                }
-                @if(phoneNumber.get('number')!.errors?.['pattern']){
-                <span class="text-danger">
-                    Must be a phone number!
-                </span>
+    <div class="d-flex flex-row align-items-center gap-2 border border-2 border-white p-4 rounded-5"
+        [class]="phoneNumber.get('isMain')?.value ? 'bg-warning bg-opacity-10' : '' "
+        [formGroup]="getPhoneNumberFormGroup($index)">
+        <div class="d-flex flex-lg-row flex-column gap-3 justify-content-around">
+            <div class="form-group">
+                <!-- <label for="countryId" class="form-label">Country</label> -->
+                <select class="form-select rounded-5" for="countryId" name="countryId" formControlName="countryId">
+                    @for (country of countries; track $index) {
+                    <option [value]="country.id"> {{country.name}} ({{country.phoneCode}})</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <!-- <label for="number" class="form-label">Number</label> -->
+                <input class="form-control rounded-5" for="number" name="number" type="text"
+                    placeholder="Number.."
+                    [class]="(phoneNumber.get('number')!.touched && phoneNumber.get('number')!.errors) ? 'border border-2 border-danger text-danger' : ''"
+                    formControlName="number" />
+                @if (phoneNumber.get('number')!.touched) {
+                <div class="d-flex flex-column gap-1">
+                    @if (phoneNumber.get('number')!.errors?.['required']) {
+                    <span class="text-danger">
+                        This field is required!
+                    </span>
+                    }
+                    @if (phoneNumber.get('number')!.errors?.['minlength']) {
+                    <span class="text-danger">
+                        Must be at least 7 characters
+                    </span>
+                    }
+                    @if(phoneNumber.get('number')!.errors?.['pattern']){
+                    <span class="text-danger">
+                        Must be a phone number!
+                    </span>
+                    }
+                </div>
                 }
             </div>
-            }
         </div>
-        <div class="form-check">
-            <label for="isMain" class="form-label">Main</label>
-            <input class="form-check-input" formControlName="isMain" (change)="selectMain($index)" type="checkbox" />
+        <div class="d-flex flex-row gap-2 justify-content-around align-items-center">
+            <div class="form-switch align-self-center">
+                <input class="form-check-input my-auto mx-1 fs-2 align-middle" formControlName="isMain"
+                    (change)="selectMain($index)" type="checkbox" />
+                <label for="isMain" class="form-label fs-4 h-50 align-middle">Main</label>
+            </div>
+
+            <div class="align-self-center">
+                <button class="btn btn-danger rounded-5" [disabled]="!canRemovePhoneNumbers" type="button"
+                    (click)="remove($index)">
+                    <i class="bi bi-x-lg fs-4"></i>
+                </button>
+            </div>
         </div>
     </div>
-    <button class="btn btn-danger align-self-end" [disabled]="!canRemovePhoneNumbers" type="button"
-        (click)="remove($index)">
-        Remove
-    </button>
     }
 </article>
-<button class="btn btn-info" type="button" (click)="addNewPhoneNumber()">
-    Add
-</button>
+<div class="mt-3 d-flex flex-row justify-content-center">
+    <div class="d-flex flex-column gap-2">
+        <div class="d-flex flex-column justify-content-center">
+            <button class="btn btn-lg btn-info rounded-5" type="button" (click)="addNewPhoneNumber()">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+    </div>
+</div>
 @if (!phoneNumbersAreValid) {
-<span class="text-danger">
-    Make sure phone numbers are valid!
-</span>
+<div class="d-flex justify-content-center mt-3">
+    <span class="text-danger">
+        Make sure phone numbers are valid!
+    </span>
+</div>
 }

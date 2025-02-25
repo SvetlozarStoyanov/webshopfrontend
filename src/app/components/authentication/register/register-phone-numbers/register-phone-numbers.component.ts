@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CountryDDMModel } from '../../../../models/countries/country-ddm-model';
 import { AbstractControl, FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UniqueInputDirective } from '../../../../core/directives/unique-input.directive';
 
 @Component({
   selector: 'app-register-phone-numbers',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, UniqueInputDirective],
   templateUrl: './register-phone-numbers.component.html',
   styleUrl: './register-phone-numbers.component.css'
 })
@@ -53,4 +54,8 @@ export class RegisterPhoneNumbersComponent {
     }
   }
 
+
+  getPhoneNumbers(): string[] {
+    return this.phoneNumbers.controls.map(x => x.get('number')?.value);
+  }
 }

@@ -7,7 +7,12 @@
         <div class="form-group">
             <label for="addressLineOne" class="form-label">Address Line One</label>
             <input class="form-control" for="addressLineOne" name="addressLineOne" type="text"
-                formControlName="addressLineOne" />
+                [appUniqueInput]="getAddressLines()" formControlName="addressLineOne" />
+            @if (address.get('addressLineOne')!.touched && address.get('addressLineOne')!.errors?.['forbidden']) {
+            <span class="text-danger">
+                Must be unique!
+            </span>
+            }
         </div>
         <div class="form-group">
             <label for="addressLineTwo" class="form-label">Address Line Two</label>

@@ -14,9 +14,4 @@ import { UserRegisterModel } from '../../../../models/users/user-register-model'
 export class RegisterUserComponent {
   @Input('userNames') userNames: string[] = [];
   @Input() registerForm!: FormGroup;
-
-
-  public test() {
-
-  }
 }

@@ -17,8 +17,8 @@
             </div>
             <div class="form-group">
                 <!-- <label for="number" class="form-label">Number</label> -->
-                <input class="form-control rounded-5" for="number" name="number" type="text"
-                    placeholder="Number.."
+                <input class="form-control rounded-5" for="number" name="number" type="text" placeholder="Number.."
+                    [appUniqueInput]="getPhoneNumbers()"
                     [class]="(phoneNumber.get('number')!.touched && phoneNumber.get('number')!.errors) ? 'border border-2 border-danger text-danger' : ''"
                     formControlName="number" />
                 @if (phoneNumber.get('number')!.touched) {
@@ -36,6 +36,11 @@
                     @if(phoneNumber.get('number')!.errors?.['pattern']){
                     <span class="text-danger">
                         Must be a phone number!
+                    </span>
+                    }
+                    @if (phoneNumber.get('number')!.errors?.['forbidden']) {
+                    <span class="text-danger">
+                        Must be unique!
                     </span>
                     }
                 </div>

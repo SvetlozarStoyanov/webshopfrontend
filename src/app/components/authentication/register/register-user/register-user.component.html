@@ -1,10 +1,10 @@
 <h3 class="">
     Personal Details
 </h3>
-<article [formGroup]="registerForm" class="d-flex flex-column gap-3">
+<article [formGroup]="registerForm" class="d-flex flex-column gap-3 border border-2 border-white p-4 rounded-5">
     <div class="form-group">
         <label class="form-label">Username</label>
-        <input class="form-control"  type="text" [appNameNotTaken]="userNames"
+        <input class="form-control rounded-5"  type="text" [appNameNotTaken]="userNames"
             pattern="^[A-Za-z0-9 ]+$" formControlName="userName" />
         @if (registerForm.get('userName')!.touched && registerForm.get('userName')!.errors?.['forbidden']) {
         <span class="text-danger">
@@ -17,26 +17,26 @@
         </span>
         }
     </div>
-    <div class="d-flex flex-row justify-content-between gap-5">
-        <div class="w-50">
+    <div class="d-flex flex-row justify-content-between gap-2">
+        <div class="">
             <label for="firstName" class="form-label">First Name</label>
-            <input class="form-control" for="firstName" name="firstName" type="text" formControlName="firstName"
+            <input class="form-control rounded-5" for="firstName" name="firstName" type="text" formControlName="firstName"
                 required pattern="^[A-Za-z ]+$" />
         </div>
-        <div class="w-50">
+        <div class="">
             <label for="lastName" class="form-label">Last Name</label>
-            <input class="form-control" for="lastName" name="lastName" type="text" formControlName="lastName"
+            <input class="form-control rounded-5" for="lastName" name="lastName" type="text" formControlName="lastName"
                 required pattern="^[A-Za-z ]+$" />
         </div>
     </div>
     <div class="form-group">
         <label for="middleName" class="form-label">Middle Name</label>
-        <input class="form-control" for="middleName" name="middleName" type="text" formControlName="middleName"
+        <input class="form-control rounded-5" for="middleName" name="middleName" type="text" formControlName="middleName"
             pattern="^[A-Za-z ]+$" />
     </div>
     <div class="form-group">
         <label class="form-label" for="password">Password</label>
-        <input class="form-control"
+        <input class="form-control rounded-5"
             [class]="[registerForm.get('password')!.touched && (registerForm.get('password')!.errors?.['minlength']) ? 'border border-4 border-danger' : ''] "
             for="password" name="password" type="password" formControlName="password" required minlength="5" />
         @if (registerForm.get('password')!.touched && registerForm.get('password')!.errors?.['minlength']) {

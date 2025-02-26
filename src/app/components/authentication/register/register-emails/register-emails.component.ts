@@ -11,6 +11,7 @@ import { UniqueInputDirective } from '../../../../core/directives/unique-input.d
 })
 export class RegisterEmailsComponent {
   emailsAreValid: boolean = true;
+  canRemoveEmails: boolean = false;
   @Input('emails') emails!: FormArray;
   @Output() addEmailEvent = new EventEmitter<void>();
 
@@ -21,7 +22,14 @@ export class RegisterEmailsComponent {
       return;
     }
     this.emailsAreValid = true;
+    this.canRemoveEmails = true;
     this.addEmailEvent.emit();
+  }
+
+  selectMain(index: number) {
+    this.emails.controls.forEach((control, i) => {
+      control.get('isMain')?.setValue(i === index);
+    })
   }
 
   getEmailFormGroup(index: number) {
@@ -30,5 +38,19 @@ export class RegisterEmailsComponent {
 
   getEmails(): string[] {
     return this.emails.controls.map(x => x.get('address')?.value);
+  }
+
+  remove(index: number) {
+    if (this.emails.length < 2) {
+      return;
+    }
+    const currIsMain = this.emails.controls[index].get('isMain')?.value;
+    this.emails.removeAt(index);
+    if (this.emails.length === 1) {
+      this.canRemoveEmails = false;
+    }
+    if (currIsMain) {
+      this.selectMain(this.emails.length - 1);
+    }
   }
 }

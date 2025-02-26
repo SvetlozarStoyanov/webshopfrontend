@@ -15,6 +15,7 @@ import { UniqueInputDirective } from '../../../../core/directives/unique-input.d
 })
 export class RegisterAddressesComponent {
   lastAddressIsValid: boolean = true;
+  canRemoveAddresses: boolean = false;
   @Input('addresses') addresses!: FormArray;
   @Input('countries') countries!: CountryDDMModel[];
   @Output() addAddressEvent = new EventEmitter<void>();
@@ -30,7 +31,28 @@ export class RegisterAddressesComponent {
     }
 
     this.lastAddressIsValid = true;
+    this,this.canRemoveAddresses = true;
     this.addAddressEvent.emit();
+  }
+
+  selectMain(index: number) {
+    this.addresses.controls.forEach((control, i) => {
+      control.get('isMain')?.setValue(i === index);
+    });
+  }
+
+  remove(index: number) {
+    if (this.addresses.length < 2) {
+      return;
+    }
+    const currIsMain = this.addresses.controls[index].get('isMain')?.value;
+    this.addresses.removeAt(index);
+    if (this.addresses.length === 1) {
+      this.canRemoveAddresses = false;
+    }
+    if (currIsMain) {
+      this.selectMain(this.addresses.length - 1);
+    }
   }
 
   getAddressFormGroup(index: number): FormGroup {

@@ -43,7 +43,6 @@ export class RegisterPhoneNumbersComponent {
     if (this.phoneNumbers.length < 2) {
       return;
     }
-    console.log('Removed phone');
     const currIsMain = this.phoneNumbers.controls[index].get('isMain')?.value;
     this.phoneNumbers.removeAt(index);
     if (this.phoneNumbers.length === 1) {

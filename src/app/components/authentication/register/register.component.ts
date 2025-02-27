@@ -71,11 +71,11 @@ export class RegisterComponent implements OnInit {
 
     this.registerForm = this.fb.group({
 
-      userName: ['', Validators.required],
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      password: ['', Validators.required],
+      userName: ['', [Validators.required, Validators.minLength(3)]],
+      firstName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[A-Za-z ]+$')]],
+      middleName: ['', [Validators.pattern('^[A-Za-z ]+$')]],
+      lastName: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[A-Za-z ]+$')]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
       customer: this.fb.group({
         addresses: this.fb.array([]),
         phoneNumbers: this.fb.array([]),
@@ -101,10 +101,10 @@ export class RegisterComponent implements OnInit {
 
   addAddress(): void {
     this.addresses.push(this.fb.group({
-      addressLineOne: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9., ]+$')]],
-      addressLineTwo: ['', Validators.pattern('^[A-Za-z0-9., ]+$')],
-      city: ['', [Validators.required, Validators.pattern('^[A-Za-z ]+$')]],
-      postCode: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')]],
+      addressLineOne: ['', [Validators.required, Validators.minLength(3), Validators.pattern('^[A-Za-z0-9., ]+$')]],
+      addressLineTwo: ['', [Validators.minLength(3), Validators.pattern('^[A-Za-z0-9., ]+$')]],
+      city: ['', [Validators.required, Validators.minLength(1), Validators.pattern('^[A-Za-z ]+$')]],
+      postCode: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[A-Za-z0-9]+$')]],
       isMain: [this.addresses.length === 0],
       countryId: [1, Validators.required]
     }));

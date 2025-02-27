@@ -14,14 +14,15 @@
                     }
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group position-relative">
                 <label for="number" class="form-label">Number</label>
                 <input class="form-control rounded-5" for="number" name="number" type="text" placeholder="0123456"
                     [appUniqueInput]="getPhoneNumbers()"
                     [class]="(phoneNumber.get('number')!.touched && phoneNumber.get('number')!.errors) ? 'border border-2 border-danger text-danger' : ''"
                     formControlName="number" />
                 @if (phoneNumber.get('number')!.touched) {
-                <div class="d-flex flex-column gap-1 p-0 m-0 ">
+                <div
+                    class="d-flex flex-column text-center justify-content-center left-1 gap-0 position-absolute p-0 m-0">
                     @if (phoneNumber.get('number')!.errors?.['required']) {
                     <span class="text-danger">
                         This field is required!
@@ -29,10 +30,10 @@
                     }
                     @if (phoneNumber.get('number')!.errors?.['minlength']) {
                     <span class="text-danger">
-                        Must be at least 7 characters
+                        Must be at least 7 characters!
                     </span>
                     }
-                    @if(phoneNumber.get('number')!.errors?.['pattern']){
+                    @else if(phoneNumber.get('number')!.errors?.['pattern']){
                     <span class="text-danger">
                         Must be a phone number!
                     </span>

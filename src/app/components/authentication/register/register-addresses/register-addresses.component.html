@@ -6,7 +6,7 @@
     <div class="d-flex flex-column gap-3 border border-2 border-white p-4 rounded-5"
         [formGroup]="getAddressFormGroup($index)">
         <div class="d-flex flex-lg-row flex-column gap-2">
-            <div class="form-group">
+            <div class="form-group custom-w-lg-50">
                 <label for="addressLineOne" class="form-label">Address Line One</label>
                 <input class="form-control rounded-5" for="addressLineOne" name="addressLineOne" type="text"
                     [class]="address.get('addressLineOne')!.touched && address.get('addressLineOne')!.errors ? 'border border-2 border-danger text-danger' : ''"
@@ -33,7 +33,7 @@
                     }
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group custom-w-lg-50">
                 <label for="addressLineTwo" class="form-label">Address Line Two</label>
                 <input class="form-control rounded-5" for="addressLineTwo" name="addressLineTwo" type="text"
                     [class]="address.get('addressLineTwo')!.touched && address.get('addressLineTwo')!.errors ? 'border border-2 border-danger text-danger' : ''"
@@ -54,12 +54,12 @@
             </div>
         </div>
         <div class="d-flex flex-lg-row flex-column gap-2">
-            <div class="form-group">
+            <div class="form-group custom-w-lg-50">
                 <label for="city" class="form-label">City</label>
                 <input class="form-control rounded-5" for="city" name="city" type="text"
                     [class]="address.get('city')!.touched && address.get('city')!.errors ? 'border border-2 border-danger text-danger' : ''"
                     formControlName="city" />
-                <div class="d-flex flex-column gap-1">
+                <div class="d-flex flex-column gap-1 w-100">
                     @if (address.get('city')!.touched) {
                     @if (address.get('city')!.errors?.['required']) {
                     <span class="text-danger">
@@ -77,9 +77,10 @@
                     }
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group custom-w-lg-50">
                 <label for="postCode" class="form-label">Post Code</label>
-                <input class="form-control  rounded-5" for="postCode" name="postCode" type="text"
+                <input class="form-control rounded-5" for="postCode" name="postCode" type="text"
+                    [class]="address.get('postCode')!.touched && address.get('postCode')!.errors ? 'border border-2 border-danger text-danger' : ''"
                     formControlName="postCode" />
                 <div class="d-flex flex-column gap-1">
                     @if (address.get('postCode')!.touched) {

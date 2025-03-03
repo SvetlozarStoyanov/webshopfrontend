@@ -7,68 +7,65 @@
         <input class="form-control rounded-5" type="text" [appNameNotTaken]="userNames"
             [class]="registerForm.get('userName')!.touched && registerForm.get('userName')!.errors ? 'border border-2 border-danger text-danger' : ''"
             pattern="^[A-Za-z0-9 ]+$" formControlName="userName" />
-        <div class="d-flex flex-column gap-1 m-0 p-0">
-            @if (registerForm.get('userName')!.touched) {
+        <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
+            [class]="registerForm.get('userName')!.touched && registerForm.get('userName')!.errors ? 'invalid-field' : ''">
             @if (registerForm.get('userName')!.errors?.['required']) {
-            <span class="text-danger">
+            <span>
                 This field is required!
             </span>
             } @else if (registerForm.get('userName')!.errors?.['minlength']) {
-            <span class="text-danger">
+            <span>
                 Must be at least 3 characters long!
             </span>
             } @else if(registerForm.get('userName')!.errors?.['forbidden']) {
-            <span class="text-danger">
+            <span>
                 Username is already taken!
             </span>
             }
-            }
         </div>
-
     </div>
     <div class="d-flex flex-lg-row flex-column justify-content-between gap-2">
-        <div class="form-group custom-w-lg-50">
+        <div class="form-group">
             <label for="firstName" class="form-label">First Name</label>
             <input class="form-control rounded-5" for="firstName" name="firstName" type="text"
                 [class]="(registerForm.get('firstName')!.touched && registerForm.get('firstName')!.errors) ? 'border border-2 border-danger text-danger' : ''"
                 formControlName="firstName" />
-            <div class="d-flex flex-column gap-1 m-0 p-0">
-                @if (registerForm.get('firstName')!.touched) {
+            <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
+                [class]="registerForm.get('firstName')!.touched && registerForm.get('firstName')!.errors ? 'invalid-field' : ''">
                 @if (registerForm.get('firstName')!.errors?.['required']) {
-                <span class="text-danger">
+                <span>
                     This field is required!
                 </span>
                 } @else if (registerForm.get('firstName')!.errors?.['minlength']) {
-                <span class="text-danger">
+                <span>
                     Must be at least 2 characters long!
                 </span>
                 } @else if (registerForm.get('firstName')!.errors?.['pattern']) {
-                <span class="text-danger">
+                <span>
                     Must contain only characters!
                 </span>
                 }
-                }
+
             </div>
         </div>
-        <div class="form-group custom-w-lg-50">
+        <div class="form-group">
             <label for="lastName" class="form-label">Last Name</label>
             <input class="form-control rounded-5" for="lastName" name="lastName" type="text" formControlName="lastName"
                 [class]="(registerForm.get('lastName')!.touched && registerForm.get('lastName')!.errors) ? 'border border-2 border-danger text-danger' : ''" />
-            <div class="d-flex flex-column gap-1 m-0 p-0">
-                @if (registerForm.get('lastName')!.touched) {
+            <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
+                [class]="registerForm.get('lastName')!.touched && registerForm.get('lastName')!.errors ? 'invalid-field' : ''">
                 @if (registerForm.get('lastName')!.errors?.['required']) {
-                <span class="text-danger">
+                <span>
                     This field is required!
                 </span>
                 } @else if (registerForm.get('lastName')!.errors?.['minlength']) {
-                <span class="text-danger">
+                <span>
                     Must be at least 2 characters long!
                 </span>
                 } @else if (registerForm.get('lastName')!.errors?.['pattern']) {
-                <span class="text-danger">
+                <span>
                     Must contain only characters!
                 </span>
-                }
                 }
             </div>
         </div>
@@ -78,13 +75,12 @@
         <input class="form-control rounded-5" for="middleName" name="middleName" type="text"
             [class]="(registerForm.get('middleName')!.touched && registerForm.get('middleName')!.errors) ? 'border border-2 border-danger text-danger' : ''"
             formControlName="middleName" pattern="^[A-Za-z ]+$" />
-        <div class="d-flex flex-column gap-1">
-            @if (registerForm.get('middleName')!.touched) {
+        <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
+            [class]="registerForm.get('middleName')!.touched && registerForm.get('middleName')!.errors ? 'invalid-field' : ''">
             @if (registerForm.get('middleName')!.errors?.['pattern']) {
-            <span class="text-danger">
+            <span>
                 Must contain only characters!
             </span>
-            }
             }
         </div>
     </div>
@@ -93,33 +89,19 @@
         <input class="form-control rounded-5"
             [class]="registerForm.get('password')!.touched && (registerForm.get('password')!.errors) ? 'border border-2 border-danger text-danger' : ''"
             for="password" name="password" type="password" formControlName="password" />
-        <div class="d-flex flex-column gap-1">
+        <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
+            [class]="registerForm.get('password')!.touched && registerForm.get('password')!.errors ? 'invalid-field' : ''">
             @if (registerForm.get('password')!.touched){
             @if( registerForm.get('password')!.errors?.['required']) {
-            <span class="text-danger">
+            <span>
                 This field is required!
             </span>
             } @if( registerForm.get('password')!.errors?.['minlength']) {
-            <span class="text-danger">
+            <span>
                 Must be 5 at least characters long!
             </span>
             }
             }
         </div>
-
     </div>
-    <!-- <div class="form-group">
-  !! If added add to password div confirmPassword.errors?.['passwordMissmatch']) ? ]
-    <label class="form-label" for="confirmPassword">Confirm Password</label>
-    <input class="form-control"
-        [ngClass]="[confirmPassword.touched && password.touched && confirmPassword.errors?.['passwordMissmatch'] ? 'border border-4 border-danger' : '']"
-        for="confirmPassword" name="confirmPassword" type="password"
-        [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" appPasswordMatch="password"
-        required />
-    @if (confirmPassword.touched && confirmPassword.errors?.['passwordMissmatch']) {
-    <span class="text-danger">
-        Passwords must match!
-    </span>
-    }
-</div> -->
 </article>

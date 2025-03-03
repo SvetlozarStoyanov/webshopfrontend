@@ -21,25 +21,25 @@
                     [class]="(phoneNumber.get('number')!.touched && phoneNumber.get('number')!.errors) ? 'border border-2 border-danger text-danger' : ''"
                     formControlName="number" />
                 @if (phoneNumber.get('number')!.touched) {
-                <div
-                    class="d-flex flex-column text-center justify-content-center left-1 gap-0 position-absolute p-0 m-0">
+                <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
+                    [class]="phoneNumber.get('number')!.touched && phoneNumber.get('number')!.errors ? 'invalid-field' : ''">
                     @if (phoneNumber.get('number')!.errors?.['required']) {
-                    <span class="text-danger">
+                    <span>
                         This field is required!
                     </span>
                     }
                     @if (phoneNumber.get('number')!.errors?.['minlength']) {
-                    <span class="text-danger">
+                    <span>
                         Must be at least 7 characters!
                     </span>
                     }
                     @else if(phoneNumber.get('number')!.errors?.['pattern']){
-                    <span class="text-danger">
+                    <span>
                         Must be a phone number!
                     </span>
                     }
                     @if (phoneNumber.get('number')!.errors?.['forbidden']) {
-                    <span class="text-danger">
+                    <span>
                         Must be unique!
                     </span>
                     }

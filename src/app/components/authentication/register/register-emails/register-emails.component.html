@@ -10,24 +10,22 @@
             <input class="form-control rounded-5" [appUniqueInput]="getEmails()" placeholder="address@mail.com"
                 [class]="email.get('address')!.touched && email.get('address')!.errors ? 'border border-2 border-danger text-danger' : ''"
                 for="address" name="address" type="text" formControlName="address" />
-            <div class="d-flex flex-column text-center justify-content-center left-1 gap-0 position-absolute p-0 m-0">
-
-                @if (email.get('address')!.touched) {
+                <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
+                [class]="email.get('address')!.touched && email.get('address')!.errors ? 'invalid-field' : ''">
                 @if (email.get('address')!.errors?.['required'] ) {
-                <span class="text-danger">
+                <span>
                     This field is required!
                 </span>
                 }
                 @if (email.get('address')!.errors?.['email'] ) {
-                <span class="text-danger">
+                <span>
                     Please enter an email address!
                 </span>
                 }
                 @else if (email.get('address')!.errors?.['forbidden'] ) {
-                <span class="text-danger">
+                <span>
                     Must be unique!
                 </span>
-                }
                 }
             </div>
         </div>

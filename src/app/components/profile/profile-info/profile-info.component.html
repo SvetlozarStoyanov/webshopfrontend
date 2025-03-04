@@ -1,0 +1,34 @@
+<section class="d-flex flex-column justify-content-center align-items-center">
+    <article class="d-flex flex-column border border-2 border-white rounded-5 p-4">
+        <div class="d-flex flex-column gap-3">
+
+            <div class="container" style="height: 150px;">
+                @if (profilePicture) {
+                <img class="h-100 object-fit-cover img-fluid rounded-circle" [src]="profilePicture" />
+                } @else {
+                <img class="h-100 object-fit-cover img-fluid rounded-circle"
+                    src="/profile-pictures/profile-picture.png" />
+                }
+            </div>
+            <div>
+                <a class="btn btn-warning rounded-5" routerLink="/update-profile-picture">
+                    Update picture
+                </a>
+            </div>
+        </div>
+        <h3 class="">
+            {{ user?.userName}}
+        </h3>
+        <div class="d-flex flex-column">
+            <span>
+                First Name: {{user?.firstName}}
+            </span>
+            <span>
+                Middle Name: {{user?.middleName}}
+            </span>
+            <span>
+                Last Name: {{user?.lastName}}
+            </span>
+        </div>
+    </article>
+</section>

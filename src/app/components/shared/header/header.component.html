@@ -1,59 +1,69 @@
-<nav class="sticky-lg-top navbar navbar-expand-lg bg-info" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/home">Webshop</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
-      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse d-flex flex-row justify-content-around" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/home">Home
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-            aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-        </li>
-      </ul>
-      @if (isLoggedIn) {
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true"
-            aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item">Profile</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="logout()">Logout</a>
-          </div>
-        </li>
-      </ul>
-      } @else{
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/register">
-            Register
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/login">
-            Login
-          </a>
-        </li>
-      </ul>
-      }
-      <!-- <form class="d-flex">
+<header class="sticky-lg-top bg-info border border-bottom border-1 border-opacity-50 border-info">
+  <nav class="navbar navbar-expand-xxl " data-bs-theme="dark">
+    <div class="container-fluid d-flex flex-row">
+      <a class="navbar-brand" routerLink="/home">Webshop</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="/home">
+              Home
+            </a>
+          </li>
+        </ul>
+        @if (isLoggedIn) {
+        <ul class="navbar-nav d-xxl-block d-none">
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <div class="container w-100" style="height: 40px;">
+                @if (profilePicture) {
+
+                <img class="h-100 object-fit-cover img-fluid rounded-circle" [src]="profilePicture" />
+                } @else {
+                <img class="h-100 object-fit-cover img-fluid rounded-circle" src="/profile-pictures/profile-picture.png"
+                  alt="Profile" />
+                }
+              </div>
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" routerLink="/profile">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click)="logout()">Logout</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav d-xxl-none d-flex flex-column gap-1">
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="/profile">
+              Profile
+            </a>
+            <a class="nav-link active" (click)="logout()">
+              Logout
+            </a>
+          </li>
+        </ul>
+        } @else {
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="/register">
+              Register
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="/login">
+              Login
+            </a>
+          </li>
+        </ul>
+        }
+        <!-- <form class="d-flex">
         <input class="form-control me-sm-2" type="search" placeholder="Search">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
       </form> -->
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>

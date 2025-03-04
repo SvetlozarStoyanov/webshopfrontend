@@ -1,0 +1,23 @@
+<section class="d-flex flex-column justify-content-center align-items-center">
+
+    <form [formGroup]="profileForm" class="d-flex flex-column justify-content-center" (ngSubmit)="submitForm()"
+        enctype="multipart/form-data">
+        <div class="form-group">
+            <label class="form-label">Profile Picture</label>
+            <input type="file" (change)="onFileSelected($event)" id="profilePicture" accept="image/*"
+                formControlName="profilePicture" />
+        </div>
+        <div *ngIf="profileForm.get('profilePicture')?.invalid && profileForm.get('profilePicture')?.touched">
+            <small class="text-danger">Please select an image file</small>
+        </div>
+        <div *ngIf="previewUrl">
+            <img [src]="previewUrl" alt="Profile Preview" width="150" />
+        </div>
+        <div>
+
+            <button class="btn btn-success btn-success rounded-5" type="submit">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</section>

@@ -1,4 +1,5 @@
 export interface UserLoginOutputModel {
     id: string,
-    userName: string
+    userName: string,
+    profilePicture: string
 }

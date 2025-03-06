@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
-import { Router } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-update-profile-picture',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './update-profile-picture.component.html',
   styleUrl: './update-profile-picture.component.css'
 })
 export class UpdateProfilePictureComponent implements OnInit {
+  initialProfilePicture?: Blob | null;
   profileForm!: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | null = null;
@@ -23,6 +23,14 @@ export class UpdateProfilePictureComponent implements OnInit {
   ngOnInit(): void {
     this.profileForm = this.fb.group({
       profilePicture: [null, [Validators.required]], // Mark the field as required
+    });
+
+    this.userService.getProfilePicture().subscribe(res => {
+      this.initialProfilePicture = new Blob([res], { type: 'image/png' });
+      if (this.initialProfilePicture) {
+        this.selectedFile = new File([this.initialProfilePicture], 'profile-picture.png', { type: 'image/png' });
+        this.previewUrl = URL.createObjectURL(this.selectedFile);
+      }
     });
   }
 
@@ -65,4 +73,5 @@ export class UpdateProfilePictureComponent implements OnInit {
       this.router.navigate(['/profile']);
     })
   }
+
 }

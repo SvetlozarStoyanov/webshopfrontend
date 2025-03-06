@@ -1,23 +1,30 @@
 <section class="d-flex flex-column justify-content-center align-items-center">
 
-    <form [formGroup]="profileForm" class="d-flex flex-column justify-content-center" (ngSubmit)="submitForm()"
-        enctype="multipart/form-data">
-        <div class="form-group">
+    <form [formGroup]="profileForm"
+        class="d-flex flex-column justify-content-center align-items-center gap-3 p-4 border border-2 border-white rounded-5"
+        (ngSubmit)="submitForm()" enctype="multipart/form-data">
+        <div class="form-group d-flex flex-column gap-2">
             <label class="form-label">Profile Picture</label>
             <input type="file" (change)="onFileSelected($event)" id="profilePicture" accept="image/*"
                 formControlName="profilePicture" />
         </div>
-        <div *ngIf="profileForm.get('profilePicture')?.invalid && profileForm.get('profilePicture')?.touched">
+        @if (profileForm.get('profilePicture')?.invalid && profileForm.get('profilePicture')?.dirty) {
+        <div>
             <small class="text-danger">Please select an image file</small>
         </div>
-        <div *ngIf="previewUrl">
-            <img [src]="previewUrl" alt="Profile Preview" width="150" />
+        }
+        @if (previewUrl) {
+        <div class="border border-3 border-white rounded-5 align-self-start">
+            <img class="rounded-5" [src]="previewUrl" alt="Profile Preview" width="150" height="150" />
         </div>
-        <div>
-
-            <button class="btn btn-success btn-success rounded-5" type="submit">
+        }
+        <div class="d-flex flex-row justify-content-between gap-2">
+            <button class="btn btn-success  rounded-5" type="submit" [disabled]="profileForm.invalid">
                 Save Changes
             </button>
+            <a class="btn btn-secondary rounded-5" routerLink="/profile">
+                Cancel
+            </a>
         </div>
     </form>
 </section>

@@ -6,6 +6,7 @@ import { guestGuard } from './core/guards/guest.guard';
 import { authGuard } from './core/guards/auth.guard';
 import { ProfileInfoComponent } from './components/profile/profile-info/profile-info.component';
 import { UpdateProfilePictureComponent } from './components/profile/update-profile-picture/update-profile-picture.component';
+import { UpdateAddressesComponent } from './components/profile/update-addresses/update-addresses.component';
 
 export const routes: Routes = [
     { path: 'home', component: ProductListComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
     { path: 'profile', component: ProfileInfoComponent, canActivate: [authGuard] },
     { path: 'update-profile-picture', component: UpdateProfilePictureComponent, canActivate: [authGuard] },
+    { path: 'update-addresses', component: UpdateAddressesComponent, canActivate: [authGuard] },
 
 
 ];

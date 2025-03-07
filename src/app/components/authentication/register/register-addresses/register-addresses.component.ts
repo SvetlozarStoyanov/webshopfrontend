@@ -8,7 +8,7 @@ import { UniqueInputDirective } from '../../../../core/directives/unique-input.d
 @Component({
   selector: 'app-register-addresses',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor, UniqueInputDirective],
+  imports: [ReactiveFormsModule, UniqueInputDirective],
   templateUrl: './register-addresses.component.html',
   styleUrl: './register-addresses.component.css',
   // changeDetection: ChangeDetectionStrategy.OnPush

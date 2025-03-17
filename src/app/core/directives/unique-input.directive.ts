@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
@@ -12,15 +12,33 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
   ],
   standalone: true
 })
-export class UniqueInputDirective implements Validator {
-  @Input('appUniqueInput') numbers: string[] = [];
+export class UniqueInputDirective implements Validator, OnChanges {
+
+  @Input('appUniqueInput') values: string[] = [];
+  private control: AbstractControl | null = null;
+
   validate(control: AbstractControl): ValidationErrors | null {
     if (!control.value) {
       return null;
     }
-    const nameTaken = this.numbers.includes(control.value);
+    this.control = control;
+    const hashmap = new Set<string>();
+    for (const value of this.values) {
+      if (!hashmap.has(value)) {
+        hashmap.add(value);
+      } else {
+        console.log(`${value} is repeated!`);
+        return { forbidden: true };
+      }
+    }
+    return null;
 
-    return nameTaken ? { forbidden: true } : null;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['values'] && this.control) {
+      this.control.updateValueAndValidity({ onlySelf: true }); // Force validation re-run
+    }
   }
 
 

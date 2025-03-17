@@ -7,6 +7,8 @@ import { authGuard } from './core/guards/auth.guard';
 import { ProfileInfoComponent } from './components/profile/profile-info/profile-info.component';
 import { UpdateProfilePictureComponent } from './components/profile/update-profile-picture/update-profile-picture.component';
 import { UpdateAddressesComponent } from './components/profile/update-addresses/update-addresses.component';
+import { UpdatePhoneNumbersComponent } from './components/profile/update-phone-numbers/update-phone-numbers.component';
+import { UpdateEmailsComponent } from './components/profile/update-emails/update-emails.component';
 
 export const routes: Routes = [
     { path: 'home', component: ProductListComponent },
@@ -16,6 +18,8 @@ export const routes: Routes = [
     { path: 'profile', component: ProfileInfoComponent, canActivate: [authGuard] },
     { path: 'update-profile-picture', component: UpdateProfilePictureComponent, canActivate: [authGuard] },
     { path: 'update-addresses', component: UpdateAddressesComponent, canActivate: [authGuard] },
+    { path: 'update-phone-numbers', component: UpdatePhoneNumbersComponent, canActivate: [authGuard] },
+    { path: 'update-emails', component: UpdateEmailsComponent, canActivate: [authGuard] },
 
 
 ];

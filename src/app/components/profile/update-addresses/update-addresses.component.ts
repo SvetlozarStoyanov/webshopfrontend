@@ -20,30 +20,34 @@ export class UpdateAddressesComponent implements OnInit {
   canRemoveAddresses: boolean = false;
   editAddressesForm!: FormGroup;
   initialAddresses: AddressEditModel[] = [];
-  countries: CountryDDMModel[] = []
+  countries: CountryDDMModel[] = [];
+
   constructor(private readonly addressService: AddressService,
     private readonly countryService: CountryService,
     private readonly fb: FormBuilder,
     private readonly router: Router) {
-
   }
 
   ngOnInit(): void {
     this.countryService.getAllCountriesForDropdown().subscribe(res => {
       this.countries = res;
-    })
+    });
 
     this.editAddressesForm = this.fb.group({
       addresses: this.fb.array([])
-    })
+    });
 
     this.addressService.getCustomerAddresses().subscribe(res => {
       this.initialAddresses = res;
       this.addInitialAddressesToForm();
-    })
+    });
   }
 
   addInitialAddressesToForm() {
+    if (this.initialAddresses.length > 1) {
+      this.canRemoveAddresses = true;
+    }
+
     for (const address of this.initialAddresses) {
       this.addresses.push(this.fb.group({
         id: address.id,
@@ -79,6 +83,7 @@ export class UpdateAddressesComponent implements OnInit {
       isMain: [false],
       countryId: [1, Validators.required]
     }));
+
     this.lastAddressIsValid = true;
     this.canRemoveAddresses = true;
   }

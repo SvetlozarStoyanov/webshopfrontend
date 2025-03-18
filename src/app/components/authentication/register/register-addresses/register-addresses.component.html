@@ -10,7 +10,7 @@
                 <label for="addressLineOne" class="form-label">Address Line One</label>
                 <input class="form-control rounded-5" for="addressLineOne" name="addressLineOne" type="text"
                     [class]="address.get('addressLineOne')!.touched && address.get('addressLineOne')!.errors ? 'border border-2 border-danger text-danger' : ''"
-                    [appUniqueInput]="getAddressLines()" formControlName="addressLineOne" />
+                    formControlName="addressLineOne" />
                 <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
                     [class]="address.get('addressLineOne')!.touched && address.get('addressLineOne')!.errors ? 'invalid-field' : ''">
                     @if (address.get('addressLineOne')!.errors?.['required']) {

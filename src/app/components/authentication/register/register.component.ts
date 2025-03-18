@@ -11,6 +11,7 @@ import { RegisterAddressesComponent } from "./register-addresses/register-addres
 import { RegisterPhoneNumbersComponent } from "./register-phone-numbers/register-phone-numbers.component";
 import { RegisterUserComponent } from "./register-user/register-user.component";
 import { RegisterEmailsComponent } from "./register-emails/register-emails.component";
+import { uniqueValidator } from '../../../core/validators/unique.validator';
 
 @Component({
   selector: 'app-register',
@@ -113,7 +114,7 @@ export class RegisterComponent implements OnInit {
 
   addPhoneNumber(): void {
     this.phoneNumbers.push(this.fb.group({
-      number: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(7)]],
+      number: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(7), uniqueValidator('number')]],
       isMain: [this.phoneNumbers.length === 0],
       countryId: [1, Validators.required]
     }));
@@ -122,7 +123,7 @@ export class RegisterComponent implements OnInit {
 
   addEmail(): void {
     this.emails.push(this.fb.group({
-      address: ['', [Validators.required, Validators.email]],
+      address: ['', [Validators.required, Validators.email, uniqueValidator('address')]],
       isMain: [this.emails.length === 0]
     }));
 

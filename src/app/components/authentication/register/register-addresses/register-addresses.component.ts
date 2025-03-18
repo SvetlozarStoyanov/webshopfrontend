@@ -1,14 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddressCreateModel } from '../../../../models/addresses/address-create-model';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CountryDDMModel } from '../../../../models/countries/country-ddm-model';
-import { NgFor } from '@angular/common';
-import { UniqueInputDirective } from '../../../../core/directives/unique-input.directive';
 
 @Component({
   selector: 'app-register-addresses',
   standalone: true,
-  imports: [ReactiveFormsModule, UniqueInputDirective],
+  imports: [ReactiveFormsModule],
   templateUrl: './register-addresses.component.html',
   styleUrl: './register-addresses.component.css',
   // changeDetection: ChangeDetectionStrategy.OnPush

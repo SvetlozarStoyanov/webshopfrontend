@@ -1,12 +1,11 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CountryDDMModel } from '../../../../models/countries/country-ddm-model';
 import { AbstractControl, FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { UniqueInputDirective } from '../../../../core/directives/unique-input.directive';
 
 @Component({
   selector: 'app-register-phone-numbers',
   standalone: true,
-  imports: [ReactiveFormsModule, UniqueInputDirective],
+  imports: [ReactiveFormsModule],
   templateUrl: './register-phone-numbers.component.html',
   styleUrl: './register-phone-numbers.component.css'
 })
@@ -27,6 +26,12 @@ export class RegisterPhoneNumbersComponent {
     this.phoneNumbersAreValid = true;
     this.canRemovePhoneNumbers = true;
     this.addNewPhoneNumberEvent.emit();
+
+    this.revalidateUniqueness();
+  }
+
+  revalidateUniqueness() {
+    this.phoneNumbers.controls.forEach(group => group.get('number')?.updateValueAndValidity());
   }
 
   getPhoneNumberFormGroup(index: number) {
@@ -51,6 +56,8 @@ export class RegisterPhoneNumbersComponent {
     if (currIsMain) {
       this.selectMain(this.phoneNumbers.length - 1);
     }
+
+    this.revalidateUniqueness();
   }
 
 

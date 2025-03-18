@@ -8,6 +8,7 @@
                 <div class="form-group pb-4 position-relative">
                     <label for="email" class="form-label">Email address</label>
                     <input class="form-control rounded-5" placeholder="address@mail.com"
+                        (input)="revalidateUniqueness()"
                         [class]="email.get('address')!.touched && email.get('address')!.errors ? 'border border-2 border-danger text-danger' : ''"
                         for="address" name="address" type="text" formControlName="address" />
                     <div class="error-tooltip m-2 p-2 border border-1 border-white rounded-4 text-center bg-danger text-white"
@@ -22,7 +23,7 @@
                             Please enter an email address!
                         </span>
                         }
-                        @else if (email.get('address')!.errors?.['forbidden'] ) {
+                        @else if (email.get('address')!.errors?.['notUnique'] ) {
                         <span>
                             Must be unique!
                         </span>

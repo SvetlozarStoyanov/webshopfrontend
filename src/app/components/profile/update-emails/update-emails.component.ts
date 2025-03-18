@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmailEditModel } from '../../../models/emails/email-edit-model';
 import { EmailService } from '../../../core/services/email.service';
-import { UniqueInputDirective } from '../../../core/directives/unique-input.directive';
 import { Router, RouterLink } from '@angular/router';
+import { uniqueValidator } from '../../../core/validators/unique.validator';
 
 @Component({
   selector: 'app-update-emails',
   standalone: true,
-  imports: [ReactiveFormsModule, UniqueInputDirective, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './update-emails.component.html',
   styleUrl: './update-emails.component.css'
 })
@@ -42,7 +42,7 @@ export class UpdateEmailsComponent implements OnInit {
     for (const email of this.initialEmails) {
       this.emails.push(this.fb.group({
         id: email.id,
-        address: [email.address, [Validators.required, Validators.email]],
+        address: [email.address, [Validators.required, Validators.email, uniqueValidator('address')]],
         isMain: [email.isMain],
       }));
     }
@@ -63,12 +63,17 @@ export class UpdateEmailsComponent implements OnInit {
 
     this.emails.push(this.fb.group({
       id: null,
-      address: ['', [Validators.required, Validators.email]],
+      address: ['', [Validators.required, Validators.email, uniqueValidator('address')]],
       isMain: [false],
     }));
 
     this.lastEmailIsValid = true;
     this.canRemoveEmails = true;
+    this.revalidateUniqueness();
+  }
+
+  revalidateUniqueness() {
+    this.emails.controls.forEach(group => group.get('address')?.updateValueAndValidity());
   }
 
   selectMain(index: number) {
@@ -89,6 +94,8 @@ export class UpdateEmailsComponent implements OnInit {
     if (currIsMain) {
       this.selectMain(this.emails.length - 1);
     }
+
+    this.revalidateUniqueness();
   }
 
   getEmailFormGroup(index: number): FormGroup {

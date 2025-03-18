@@ -19,6 +19,7 @@
                         <label for="number" class="form-label">Number</label>
                         <input class="form-control rounded-5" for="number" name="number" type="text"
                             placeholder="0123456"
+                            (input)="revalidateUniqueness()"
                             [class]="(phoneNumber.get('number')!.touched && phoneNumber.get('number')!.errors) ? 'border border-2 border-danger text-danger' : ''"
                             formControlName="number" />
                         @if (phoneNumber.get('number')!.touched) {
@@ -39,7 +40,7 @@
                                 Must be a phone number!
                             </span>
                             }
-                            @if (phoneNumber.get('number')!.errors?.['forbidden']) {
+                            @if (phoneNumber.get('number')!.errors?.['notUnique']) {
                             <span>
                                 Must be unique!
                             </span>

@@ -4,13 +4,12 @@ import { AddressService } from '../../../core/services/address.service';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CountryDDMModel } from '../../../models/countries/country-ddm-model';
 import { CountryService } from '../../../core/services/country.service';
-import { UniqueInputDirective } from '../../../core/directives/unique-input.directive';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-update-addresses',
   standalone: true,
-  imports: [ReactiveFormsModule, UniqueInputDirective, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './update-addresses.component.html',
   styleUrl: './update-addresses.component.css'
 })

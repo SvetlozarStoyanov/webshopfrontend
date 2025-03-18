@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { UniqueInputDirective } from '../../../../core/directives/unique-input.directive';
 
 @Component({
   selector: 'app-register-emails',
   standalone: true,
-  imports: [ReactiveFormsModule, UniqueInputDirective],
+  imports: [ReactiveFormsModule],
   templateUrl: './register-emails.component.html',
   styleUrl: './register-emails.component.css'
 })
@@ -24,6 +23,11 @@ export class RegisterEmailsComponent {
     this.emailsAreValid = true;
     this.canRemoveEmails = true;
     this.addEmailEvent.emit();
+    this.revalidateUniqueness();
+  }
+
+  revalidateUniqueness() {
+    this.emails.controls.forEach(group => group.get('address')?.updateValueAndValidity());
   }
 
   selectMain(index: number) {
@@ -52,5 +56,7 @@ export class RegisterEmailsComponent {
     if (currIsMain) {
       this.selectMain(this.emails.length - 1);
     }
+
+    this.revalidateUniqueness();
   }
 }

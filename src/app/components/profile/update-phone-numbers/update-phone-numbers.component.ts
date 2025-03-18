@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CountryDDMModel } from '../../../models/countries/country-ddm-model';
 import { PhoneNumberEditModel } from '../../../models/phoneNumbers/phoneNumber-edit-model';
 import { CountryService } from '../../../core/services/country.service';
 import { PhoneNumberService } from '../../../core/services/phone-number.service';
 import { Router, RouterLink } from '@angular/router';
-import { UniqueInputDirective } from '../../../core/directives/unique-input.directive';
+import { uniqueValidator } from '../../../core/validators/unique.validator';
 
 @Component({
   selector: 'app-update-phone-numbers',
   standalone: true,
-  imports: [ReactiveFormsModule, UniqueInputDirective, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './update-phone-numbers.component.html',
   styleUrl: './update-phone-numbers.component.css'
 })
 export class UpdatePhoneNumbersComponent implements OnInit {
+
   lastPhoneNumberIsValid: boolean = true;
   canRemovePhoneNumber: boolean = false;
   editPhoneNumbersForm!: FormGroup;
@@ -52,7 +53,7 @@ export class UpdatePhoneNumbersComponent implements OnInit {
     for (const phoneNumber of this.initialPhoneNumbers) {
       this.phoneNumbers.push(this.fb.group({
         id: phoneNumber.id,
-        number: [phoneNumber.number, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(7)]],
+        number: [phoneNumber.number, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(7), uniqueValidator('number')]],
         isMain: [phoneNumber.isMain],
         countryId: [phoneNumber.countryId, Validators.required]
       }));
@@ -71,14 +72,18 @@ export class UpdatePhoneNumbersComponent implements OnInit {
 
     this.phoneNumbers.push(this.fb.group({
       id: null,
-      number: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(7)]],
+      number: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(7), uniqueValidator('number')]],
       isMain: [false],
       countryId: [1, Validators.required]
     }));
 
     this.lastPhoneNumberIsValid = true;
     this.canRemovePhoneNumber = true;
+    this.revalidateUniqueness();
+  }
 
+  revalidateUniqueness() {
+    this.phoneNumbers.controls.forEach(group => group.get('number')?.updateValueAndValidity());
   }
 
   selectMain(index: number) {
@@ -99,8 +104,9 @@ export class UpdatePhoneNumbersComponent implements OnInit {
     if (currIsMain) {
       this.selectMain(this.phoneNumbers.length - 1);
     }
-
+    this.revalidateUniqueness();
   }
+
 
   getPhoneNumberFormGroup(index: number): FormGroup {
     return this.phoneNumbers.at(index) as FormGroup;

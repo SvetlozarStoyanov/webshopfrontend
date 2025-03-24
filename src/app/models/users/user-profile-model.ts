@@ -1,4 +1,4 @@
-export interface UserProfileModel {
+export interface UserDetailsModel {
     userName: string,
     firstName: string,
     middleName?: string,

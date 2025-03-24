@@ -5,5 +5,6 @@ export interface AddressDetailsModel {
     city: string,
     postCode: string,
     isMain: boolean,
-    countryId: number
+    countryId: number,
+    countryName: string
 }

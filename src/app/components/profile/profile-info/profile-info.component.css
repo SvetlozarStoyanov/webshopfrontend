@@ -1,0 +1,18 @@
+.update-profile-picture-icon {
+    opacity: 0.1;
+    top:40%;
+    left: 47%;
+}
+
+.update-profile-picture-link:hover {
+    background-color: rgba(0, 0, 0, 1);
+    opacity: 1;
+}
+
+
+.update-profile-picture-link:hover img {
+    opacity: 0.1;
+}
+.update-profile-picture-link:hover .update-profile-picture-icon {
+    opacity: 1;
+}

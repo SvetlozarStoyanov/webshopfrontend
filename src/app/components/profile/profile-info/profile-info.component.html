@@ -1,51 +1,104 @@
-<section class="d-flex flex-column justify-content-center align-items-center">
-    <article class="d-flex flex-column border border-2 border-white rounded-5 p-4">
-        <div class="d-flex flex-column gap-3">
-
-            <div class="container" style="height: 150px;">
-                @if (profilePicture) {
-                <img class="h-100 object-fit-cover img-fluid rounded-circle" [src]="profilePicture" />
-                } @else {
-                <img class="h-100 object-fit-cover img-fluid rounded-circle"
-                    src="/profile-pictures/profile-picture.png" />
-                }
-            </div>
-            <div>
-                <a class="btn btn-warning rounded-5" routerLink="/update-profile-picture">
-                    Update picture
+<section class="d-flex flex-column justify-content-center gap-3 p-4 border border-2 border-white rounded-5">
+    <article class="d-flex flex-column p-4 align-items-center">
+        <div class="d-flex flex-column gap-5">
+            <div class="border border-1 border-white rounded-circle p-1" style="height: 150px;">
+                <a class="position-relative update-profile-picture-link rounded-circle"
+                    routerLink="/update-profile-picture">
+                    <div
+                        class="position-absolute update-profile-picture-icon d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-pencil text-center fs-5 fw-bold text-white"></i>
+                    </div>
+                    <div class="container picture-div h-100">
+                        @if (profilePicture) {
+                        <img class="h-100 object-fit-cover img-fluid rounded-circle" [src]="profilePicture" />
+                        } @else {
+                        <img class="h-100 object-fit-cover img-fluid rounded-circle"
+                            src="/profile-pictures/profile-picture.png" />
+                        }
+                    </div>
                 </a>
             </div>
         </div>
         <h3 class="">
-            {{ user?.userName}}
+            {{ customer?.user?.userName}}
         </h3>
-        <div class="d-flex flex-column">
-            <span>
-                First Name: {{user?.firstName}}
-            </span>
-            <span>
-                Middle Name: {{user?.middleName}}
-            </span>
-            <span>
-                Last Name: {{user?.lastName}}
-            </span>
+        <div class="d-flex flex-column ">
+            <h4 class="fw-bold">
+                {{customer?.user?.firstName}} {{customer?.user?.middleName != null ? customer?.user?.middleName :
+                ''}}{{customer?.user?.lastName}}
+            </h4>
         </div>
     </article>
-    <article class="d-flex flex-row gap-3">
-        <div>
-            <a class="btn btn-warning rounded-5" routerLink="/update-addresses">
-                Edit addresses
-            </a>
+    <article class="row row-cols-lg-2 row-cols-1 gap-3">
+        <div class="col border border-2 border-white rounded-5 p-4">
+
+            <div class=" d-flex flex-column justify-content-center align-items-center gap-5">
+                <h4 class="fw-bold">
+                    Addresses
+                </h4>
+                <div class="d-flex flex-column justify-content-center gap-3">
+                    @for (address of customer?.addresses; track $index) {
+                    <div class="d-flex flex-column gap-2 p-4 border border-2 border-white rounded-5 ">
+                        <h5>
+                            {{address.addressLineOne}}{{(address.addressLineTwo != null ? " " + address.addressLineTwo :
+                            '')}}
+                        </h5>
+                        <h6>
+                            {{address.city}}, {{address.countryName}}
+                        </h6>
+                    </div>
+                    }
+                    <div class="align-self-center">
+
+                        <a class="btn btn-lg btn-primary rounded-5 fs-5" routerLink="/update-addresses">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <a class="btn btn-warning rounded-5" routerLink="/update-phone-numbers">
-                Edit phone numbers
-            </a>
+        <div class="col row row-cols-lg-2 row-cols-1 border border-2 border-white rounded-5 p-4">
+            <div class="col border border-2 border-white rounded-5 p-4">
+
+                <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+                    <h4 class="fw-bold">
+                        Phone Numbers
+                    </h4>
+                    @for (phoneNumber of customer?.phoneNumbers; track $index) {
+                    <div class="d-flex flex-column gap-2 p-4 border border-2 border-white rounded-5 ">
+                        <h5>
+                            {{phoneNumber.countryName}} {{phoneNumber.number}}
+                        </h5>
+                    </div>
+                    }
+                    <div class="align-self-center">
+                        <a class="btn btn-lg btn-primary rounded-5 fs-5" routerLink="/update-phone-numbers">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col border border-2 border-white rounded-5 p-4">
+                <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+                    <h4 class="fw-bold">
+                        Emails
+                    </h4>
+                    @for (emails of customer?.emails; track $index) {
+                    <div class="d-flex flex-column gap-2 p-4 border border-2 border-white rounded-5 ">
+                        <h5>
+                            {{emails.address}}
+                        </h5>
+
+                    </div>
+                    }
+                    <div class="align-self-center">
+                        <a class="btn btn-lg btn-primary rounded-5 fs-5" routerLink="/update-emails">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <a class="btn btn-warning rounded-5" routerLink="/update-emails">
-                Edit emails
-            </a>
-        </div>
+
     </article>
 </section>

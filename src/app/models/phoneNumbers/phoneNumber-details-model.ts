@@ -3,5 +3,6 @@ export interface PhoneNumberDetailsModel {
     number: string,
     isMain: boolean,
     countryId: number,
+    phoneCode: string,
     countryName: string
 }
